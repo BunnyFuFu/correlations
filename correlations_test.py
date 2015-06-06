@@ -1,12 +1,12 @@
 import numpy as np
-from correlations import functions as f
+from modules import functions as f
 
 #create random data
 a = np.random.rand(100, 512, 512)
 b = np.random.rand(100, 512, 512)
 c = np.random.rand(100, 512, 512)
 
-timeRange = getTimeRange(a)
+timeRange = f.getTimeRange(a)
 
 #calculate indiviual correlations
 aCorr = f.arrayCorr(a, timeRange)
