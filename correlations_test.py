@@ -6,6 +6,13 @@ a = np.random.rand(100, 512, 512)
 b = np.random.rand(100, 512, 512)
 c = np.random.rand(100, 512, 512)
 
+#TODO:
+#Accumulate random stack
+#Scale accumulated stack
+#Time test summarized in a figure
+# - vary array size
+# - vary scale
+
 timeRange = f.getTimeRange(a)
 
 #calculate indiviual correlations
