@@ -16,7 +16,7 @@ def stackNoise(a, noise=None):
     total = a[0]
     for i in range(1,x):
         a[i] = total + noise
-        total = total + a[i]
+        total = noise * i
     return a
 
 def scaleStack(a, factor=1):

@@ -7,14 +7,15 @@ import time
 startTime = time.time()
 
 #create random data
-a = np.random.rand(100, 256, 256)
-b = np.random.rand(100, 256, 256)
-c = np.random.rand(100, 256, 256)
+a = np.random.rand(100, 512, 512)
+b = np.random.rand(100, 512, 512)
+c = np.random.rand(100, 512, 512)
 
 #Accumulate random stack
-a = f.stackNoise(a)
-b = f.stackNoise(b)
-c = f.stackNoise(c)
+noise = np.ones((100, 100))
+a = f.stackNoise(a, noise)
+b = f.stackNoise(b, noise)
+c = f.stackNoise(c, noise)
 
 #Scale accumulated stack
 factor1 = 1
@@ -66,10 +67,10 @@ overallCorr3 = f.overallCorr(overall3, timeRange)
 pl.plot(timeRange, overallCorr1, label="x1.0")
 pl.plot(timeRange, overallCorr2, label="x2.0")
 pl.plot(timeRange, overallCorr3, label="x3.0")
-pl.title("Some title?")
+pl.title("Some title")
 pl.xlabel("change in time")
 pl.ylabel("correlation")
 pl.legend(loc='upper right')
 endTime = time.time() - startTime
-pl.figtext(1, 1, "{:.3f} seconds".format(endTime))
+pl.text(50, 3, "Runtime: {:.3f} seconds".format(endTime))
 pl.show()
