@@ -1,8 +1,12 @@
 import numpy as np
 import pylab as pl
+import h5py as hp
 
-def readFile(filename):
-    """puts file data into 3D array"""
+def readFile(filePath):
+    fp = hp.File(filePath, "r")
+    x, y = fp["1"].shape
+    a = [fp[str(i)].value for i in range(1, 10001)]
+    return a
 
 def getTimeRange(a):
     x, y, z = a.shape
@@ -16,7 +20,7 @@ def stackNoise(a, noise=None):
     total = a[0]
     for i in range(1,x):
         a[i] = total + noise
-        total = noise * i
+        total = total + a[i]
     return a
 
 def scaleStack(a, factor=1):
