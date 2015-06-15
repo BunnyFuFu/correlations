@@ -4,37 +4,28 @@ from modules import new_functions as f
 import time
 
 #time script runtime
-startTime = time.time()
 
 #simmulate data
 size = (100, 256, 256)
-a = np.random.normal(0, 0.01, size)
-b = np.random.normal(0, 0.02, size)
-c = np.random.normal(0, 0.05, size)
 
-#cumulative sum
-aSum = np.cumsum(a, 0)
-bSum = np.cumsum(b, 0)
-cSum = np.cumsum(c, 0)
-
-cosA = np.cos(aSum)
-cosB = np.cos(bSum)
-cosC = np.cos(cSum)
+err = [0.1, 0.2, 0.3]
+a_stack_sum = []
+for e in err:
+    tmp = np.random.normal(0, e, size)
+    a_stack_sum.append(np.cos(np.cumsum(tmp, 0)))
 
 #calculate distance
-timeRange = f.getTimeRange(cosA)
+timeRange = f.getTimeRange(a_stack_sum[0])
 
-aDis = f.distance(cosA, timeRange)
-bDis = f.distance(cosB, timeRange)
-cDis = f.distance(cosC, timeRange)
-
-#plot results
-pl.plot(timeRange, aDis, label="SD = 0.01")
-pl.plot(timeRange, bDis, label="SD = 0.02")
-pl.plot(timeRange, cDis, label="SD = 0.05")
+fig = pl.figure()
 pl.title("Decoherence time(?)")
 pl.xlabel("time")
 pl.ylabel("sum")
+for e,v in zip(err, a_stack_sum):
+    startTime = time.time()
+    dis = f.distance(v, timeRange)
+    endTime = time.time()
+    print("Took %lf seconds" % (endTime - startTime))
+    pl.plot(timeRange, dis, label="SD = %lf"%e)
 pl.legend(loc='upper right')
-endTime = time.time() - startTime
 pl.show()
