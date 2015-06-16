@@ -8,8 +8,8 @@ import math
 path1 = "/mnt/cbis/images/duaneloh/EMData/LiquidCutout1.h5"
 path2 = "/mnt/cbis/images/duaneloh/EMData/LiquidCutout2.h5"
 
-files = [path1]
-times = [1, 2, 10]
+files = [path1, path2]
+times = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 a_stack_sum = []
 for p in files:
     tmp = f.readFile(p)
@@ -24,13 +24,11 @@ pl.title("Decoherence time")
 pl.xlabel("time")
 pl.ylabel("sum")
 for p,v in zip(files, a_stack_sum):
-    for t in times:
-        startTime = time.time()
-        dis = f.distanceVaryTime(v, timeRange, t)
-        adjTime = timeRange[:-1*t]
-        endTime = time.time()
-        print("Took %lf seconds" % (endTime - startTime))
-        pl.plot(adjTime, dis, label="Cutout: %d Time Diff:%d"%((files.index(p)+1),t))
+    startTime = time.time()
+    mean_stack = [f.distanceVaryTime(v, timeRange, t).mean() for t in times]
+    endTime = time.time()
+    print("Took %lf seconds" % (endTime - startTime))
+    pl.plot(range(len(mean_stack)), mean_stack, label="Cutout: %d"%(files.index(p)+1))
 pl.legend(loc='lower right')
 pl.savefig("/mnt/cbis/home/melissa/figures/LiquidCutout/vary_time_data1.png")
 pl.show()
@@ -41,14 +39,12 @@ pl.title("Decoherence time")
 pl.xlabel("time")
 pl.ylabel("log(sum)")
 for p,v in zip(files, a_stack_sum):
-    for t in times:
-        startTime = time.time()
-        dis = f.distanceVaryTime(v, timeRange, t)
-        logDis = [i if i<=0 else math.log(i) for i in dis]
-        adjTime = timeRange[:-1*t]
-        endTime = time.time()
-        print("Took %lf seconds" % (endTime - startTime))
-        pl.plot(adjTime, logDis, label="Cutout %d Time Diff: %d "%((files.index(p)+1),t))
+    startTime = time.time()
+    mean_stack = [f.distanceVaryTime(v, timeRange, t).mean() for t in times]
+    log_mean_stack = [i if i<=0 else math.log(i) for i in mean_stack]
+    endTime = time.time()
+    print("Took %lf seconds" % (endTime - startTime))
+    pl.plot(range(len(mean_stack)), log_mean_stack, label="Cutout: %d"%(files.index(p)+1))
 pl.legend(loc='lower right')
 pl.savefig("/mnt/cbis/home/melissa/figures/LiquidCutout/vary_time_data2.png")
 pl.show()
@@ -59,15 +55,13 @@ pl.title("Decoherence time")
 pl.xlabel("log(time)")
 pl.ylabel("log(sum)")
 for p,v in zip(files, a_stack_sum):
-    for t in times:
-        startTime = time.time()
-        dis = f.distanceVaryTime(v, timeRange, t)
-        logDis = [i if i<=0 else math.log(i) for i in dis]
-        logTime = [i if i==0 else math.log(i) for i in timeRange]
-        adjTime = logTime[:-1*t]
-        endTime = time.time()
-        print("Took %lf seconds" % (endTime - startTime))
-        pl.plot(adjTime, logDis, label="Cutout %d Time Diff: %d"%((files.index(p)+1),t))
+    startTime = time.time()
+    mean_stack = [f.distanceVaryTime(v, timeRange, t).mean() for t in times]
+    log_mean_stack = [i if i<=0 else math.log(i) for i in mean_stack]
+    log_time = [i if i==0 else math.log(i) for i in range(len(mean_stack))]
+    endTime = time.time()
+    print("Took %lf seconds" % (endTime - startTime))
+    pl.plot(log_time, log_mean_stack, label="Cutout: %d"%(files.index(p)+1))
 pl.legend(loc='lower right')
 pl.savefig("/mnt/cbis/home/melissa/figures/LiquidCutout/vary_time_data3.png")
 pl.show()

@@ -71,6 +71,6 @@ pl.xlabel("change in time")
 pl.ylabel("correlation")
 pl.legend(loc='upper right')
 endTime = time.time() - startTime
-pl.text(70, 3.5, "Runtime: {:.3f} seconds".format(endTime))
+pl.text(5, 2.8*10**59, "Runtime: {:.3f} seconds".format(endTime))
 pl.savefig("/mnt/cbis/home/melissa/figures/simulated_data.png")
 pl.show()

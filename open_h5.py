@@ -5,3 +5,4 @@ for i in range(1, 11):
     a = fp[str(i)].value
     print a.sum()
 fp.close()
+
