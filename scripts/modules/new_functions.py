@@ -20,7 +20,7 @@ def distance(a, range):
 
 def distanceVaryTime(a, r, timeSep):
     lastVal = r[-1*timeSep]
-    sum = [np.sqrt(((a[i] - a[i+timeSep])**2).flatten().mean()) if i<lastVal else 0 for i in r]
+    sum = [np.sqrt(((a[i] - a[i+timeSep])**2).flatten().sum()) if i<lastVal else 0 for i in r]
     sum = np.asarray(sum[:lastVal])
     return sum
 
