@@ -6,6 +6,7 @@ def readFile(filePath):
     fp = hp.File(filePath, "r")
     x, y = fp["1"].shape
     a = [fp[str(i)].value for i in range(1, 10001)]
+    a = np.asarray(a)
     return a
 
 def getTimeRange(a):

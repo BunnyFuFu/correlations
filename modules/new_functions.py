@@ -1,20 +1,26 @@
 import numpy as np
-import pylab as pl
 import h5py as hp
 
-def readFile(filePath):
+def readFile(filePath, size=256):
     fp = hp.File(filePath, "r")
-    x, y = fp["1"].shape
-    a = [fp[str(i)].value for i in range(1, 10001)]
+    a = [fp[str(i)].value for i in range(1, 201)]
     a = np.asarray(a)
+    a = a[:, 0:size, 0:size]
     return a
 
 def getTimeRange(a):
     x, y, z = a.shape
     return range(x)
 
-def distance(a, time):
+def distance(a, range):
     """calculate distance of each frame from the first frame"""
-    sum = [np.sqrt(((a[1] - a[i])**2).flatten().sum()) for i in time]
+    sum = [np.sqrt(((a[0] - a[i])**2).flatten().sum()) for i in range]
     sum = np.asarray(sum)
     return sum
+
+def distanceVaryTime(a, r, time):
+    lastVal = r[-1*time]
+    sum = [np.sqrt(((a[i] - a[i+time])**2).flatten().sum()) if i<lastVal else 0 for i in r]
+    sum = np.asarray(sum[:lastVal])
+    return sum
+
