@@ -8,6 +8,14 @@ def readFile(path, size=256):
     a = [fp[str(i)].value for i in range(1, 201)]
     a = np.asarray(a)
     a = a[:, 0:size, 0:size]
+    fp.close()
+    return a
+
+def readFile2(path, size=1024):
+    fp = hp.File(path, 'r')
+    a = np.array([fp["/frames/%05d"%i].value for i in range(0, 321)])
+    a = a[:, 0:size, 0:size]
+    fp.close()
     return a
 
 def measureDist(a, b):
