@@ -1,11 +1,12 @@
 import numpy as np
+import math as M
 from numpy import linalg as LA
 from matplotlib import pyplot as P
 import h5py as hp
 
 def readFile(path, size=256):
     fp = hp.File(path, 'r')
-    a = [fp[str(i)].value for i in range(1, 201)]
+    a = [fp[str(i)].value for i in range(1, 10001)]
     a = np.asarray(a)
     a = a[:, 0:size, 0:size]
     fp.close()
@@ -55,6 +56,18 @@ def avgInStack(s, b):
     l = len(s)
     l_zip_range = zip(range(0,l,b), range(b,l,b))
     return np.array([s[l0:l1].mean(axis=0) for l0,l1 in l_zip_range])
+
+def plotFrames(stack, f, n=4):
+    fig = P.figure(15, 6)
+    for i in range(n):
+        P.subplot(1, n, i+1)
+        P.imshow(stack[f+i])
+
+def plotFrameDiff(stack, f, n=4):
+    fig = P.figure()
+    for i in range(n):
+        P.subplot(1, n, i+1)
+        P.imshow(stack[f+i]- stack[f+i+1])
 
 """def simulateAndPlotDefaultCase(avg=0):
     dist_vs_std = []
