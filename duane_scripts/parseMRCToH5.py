@@ -125,7 +125,7 @@ with open(in_mrc, 'rb') as f:
     fr_sz       = nx*ny*p_typ_sz[mode]
     for fnum,frame in enumerate(range(nz)):
         bin_data = f.read(fr_sz)
-        fr_data = struct.unpack(fr_sz, bin_data)
+        fr_data = struct.unpack(fr_sz_txt, bin_data)
         fr_tag  = "%05d"%(fnum+1)
         fr_grp.create_dataset(fr_tag, data=fr_data, compression="gzip", compression_opts=9)
 
